@@ -2,15 +2,12 @@ package com.example.cse416;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.cse416.constants.StateID;
 import com.example.cse416.constants.Type;
-import com.example.cse416.constants.Group;
 import com.example.cse416.model.BoxWhisker;
 import com.example.cse416.model.Demographics;
 import com.example.cse416.model.DistrictBoundary;
@@ -19,12 +16,7 @@ import com.example.cse416.model.DistrictPlanData;
 import com.example.cse416.model.DistrictPlanSummary;
 import com.example.cse416.model.EnsembleSummary;
 
-import org.springframework.http.MediaType;
-
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 @SpringBootApplication
@@ -47,19 +39,6 @@ public class Controller {
         var res = service.getDistrictBoundary(state);
         return ResponseEntity.ok(res);
     }
-
-    // @GetMapping("/geojson/{state}/{type}")
-    // public ResponseEntity<Resource> getGeoJson(@PathVariable String state, @PathVariable String type) throws IOException {
-    //     String filePath = "/geojson/" + state.toLowerCase() + "/" + type.toLowerCase() + ".geojson";
-    //     Resource resource = new ClassPathResource(filePath);
-    //     if (resource.exists()) {
-    //         return ResponseEntity.ok()
-    //                 .contentType(MediaType.APPLICATION_JSON)
-    //                 .body(resource);
-    //     } else {
-    //         return ResponseEntity.notFound().build();
-    //     }
-    // }]    
 
     @GetMapping("/ensemble/summary/{state}/{type}/{specific}")
     public ResponseEntity<EnsembleSummary> getEnsembleSummary(
@@ -118,29 +97,6 @@ public class Controller {
             return ResponseEntity.ok(bw);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
-        }
-    }
-    
-    private String mapEnumToGroup(String group) {
-        switch (group) {
-            case "asian":
-                return "Asian Population";
-            case "black":
-                return "Black Population";
-            case "white":
-                return "White Population";
-            case "hispanic":
-                return "Hispanic Population";
-            case "democrat":
-                return "Democratic Population";
-            case "republican":
-                return "Republican Population";
-            case "american_indian":
-                return "American Indian Population";
-            case "other":
-                return "Other Population";  // You can handle this case if needed
-            default:
-                throw new IllegalArgumentException("Unknown group: " + group);
         }
     }
      
